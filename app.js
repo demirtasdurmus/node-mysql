@@ -1,6 +1,9 @@
 const express = require("express")
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const morgan = require("morgan")
+
+const api = require("./api")
 const convertErrors = require('./middleware/convertErrors')
 const handleErrors = require('./middleware/handleErrors')
 
@@ -11,6 +14,10 @@ app.use(morgan("dev"))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+
+// redirect incoming requests to api.js
+app.use(`/api/${process.env.API_VERSION}`, api)
 
 // set up a 404 handler
 app.all("*", (req, res, next) => {

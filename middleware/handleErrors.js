@@ -1,12 +1,12 @@
 const sendErrorDev = (err, res) => {
     // 1) log error to console
-    console.log(`-----------💥${err.name}💥----------`)
+    console.log(`💥💥💥💥💥💥💥💥💥💥💥💥💥${err.name}💥💥💥💥💥💥💥💥💥💥💥💥💥`)
     console.log("headersSent: ?", res.headersSent)
     console.log("isOperational: ?", err.isOperational)
     console.log(err.message)
     console.log("-------------stack----------------")
     console.log(err.stack)
-    console.log("----------------------------------")
+    console.log("💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥")
 
     // 2) send error message to client
     if (res.headersSent) return
@@ -24,13 +24,13 @@ const sendErrorProd = (err, res) => {
     if (err.isOperational) {
         // check if the headers is sent
         if (res.headersSent) {
-            console.log(`-----------💥${err.name}💥----------`)
+            console.log(`💥💥💥💥💥💥💥💥💥💥💥💥💥${err.name}💥💥💥💥💥💥💥💥💥💥💥💥💥`)
             console.log("headersSent: ?", res.headersSent)
             console.log("isOperational: ?", err.isOperational)
             console.log(err.message)
             console.log("-------------stack----------------")
             console.log(err.stack)
-            console.log("----------------------------------")
+            console.log("💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥")
         } else {
             res.status(err.statusCode).send({
                 status: err.status,
@@ -40,13 +40,13 @@ const sendErrorProd = (err, res) => {
         // Programming or other unknown error: don't leak error details
     } else {
         // log error to db 
-        console.log(`-----------💥${err.name}💥----------`)
+        console.log(`💥💥💥💥💥💥💥💥💥💥💥💥💥${err.name}💥💥💥💥💥💥💥💥💥💥💥💥💥`)
         console.log("headersSent: ?", res.headersSent)
         console.log("isOperational: ?", err.isOperational)
         console.log(err.message)
         console.log("-------------stack----------------")
         console.log(err.stack)
-        console.log("----------------------------------")
+        console.log("💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥")
         // check if the headers is sent
         if (!res.headersSent) {
             // send generic message

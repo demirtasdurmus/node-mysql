@@ -8,10 +8,13 @@ const convertSequelizeError = (err) => {
         // create a custom message for Sequelize validation errors
         let concattedMessage = err.errors.map(er => er.message).join('. ')
         err.message = `Invalid input: ${concattedMessage}`
+        // set initial statusCode to 400 if not already set
+        err.statusCode = err.statusCode || httpStatus.BAD_REQUEST
     } else if (err.name === "SequelizeUniqueConstraintError") {
         // create a custom message for Sequelize unique constraint errors
         let concattedMessage = err.errors.map(er => er.message).join('. ')
         err.message = `Unique key violation: ${concattedMessage}`
+        err.statusCode = err.statusCode || httpStatus.BAD_REQUEST
     }
     return err
 }
@@ -20,9 +23,6 @@ const convertSequelizeError = (err) => {
 module.exports = (err, req, res, next) => {
     let error = err
     if (!(error instanceof AppError)) {
-        // set initial statusCode to 400 if not already set
-        error.statusCode = error.statusCode || httpStatus.BAD_REQUEST
-
         // convert errors conditionally
         // if (error instanceof JsonWebTokenError) {
         //     error.message = 'Invalid session. Please log in again.'
