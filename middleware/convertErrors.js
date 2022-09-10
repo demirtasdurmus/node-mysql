@@ -1,6 +1,7 @@
 const httpStatus = require('http-status')
 const AppError = require('../utils/appError')
 const Sequelize = require("sequelize")
+const { JsonWebTokenError, TokenExpiredError, NotBeforeError } = require('jsonwebtoken')
 
 
 const convertSequelizeError = (err) => {
@@ -24,17 +25,16 @@ module.exports = (err, req, res, next) => {
     let error = err
     if (!(error instanceof AppError)) {
         // convert errors conditionally
-        // if (error instanceof JsonWebTokenError) {
-        //     error.message = 'Invalid session. Please log in again.'
-        //     error.statusCode = httpStatus.UNAUTHORIZED
-        // } else if (error instanceof TokenExpiredError) {
-        //     error.message = 'Session expired. Please log in again.'
-        //     error.statusCode = httpStatus.UNAUTHORIZED
-        // } else if (error instanceof NotBeforeError) {
-        //     error.message = 'Session not active. Please log in again.'
-        //     error.statusCode = httpStatus.UNAUTHORIZED
-        // } else 
-        if (error instanceof Sequelize.Error) {
+        if (error instanceof JsonWebTokenError) {
+            error.message = 'Invalid session. Please log in again.'
+            error.statusCode = httpStatus.UNAUTHORIZED
+        } else if (error instanceof TokenExpiredError) {
+            error.message = 'Session expired. Please log in again.'
+            error.statusCode = httpStatus.UNAUTHORIZED
+        } else if (error instanceof NotBeforeError) {
+            error.message = 'Session not active. Please log in again.'
+            error.statusCode = httpStatus.UNAUTHORIZED
+        } else if (error instanceof Sequelize.Error) {
             error = convertSequelizeError(error)
         } else {
             error.statusCode = error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
