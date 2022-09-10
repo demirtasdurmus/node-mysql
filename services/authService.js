@@ -3,7 +3,7 @@ const AppError = require("../utils/appError")
 const { User, Role } = require('../models')
 const { sign, verify } = require("../utils/jwt")
 const { encrypt, decrypt } = require("../utils/session")
-const { API_URL, CLIENT_URL } = require('../config')
+const { API_URL } = require('../config')
 
 
 exports.registerUser = async (userInput) => {
@@ -17,7 +17,6 @@ exports.registerUser = async (userInput) => {
         passwordConfirm
     })
     // sign a token
-
     const data = { id: newUser.id }
     const secret = process.env.JWT_VERIFY_SECRET
     const expiry = process.env.JWT_VERIFY_EXPIRY

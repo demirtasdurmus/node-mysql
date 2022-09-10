@@ -75,7 +75,7 @@ module.exports = (db, Sequelize) => {
                 allowNull: false,
                 defaultValue: false,
             },
-            profileImg: {
+            profileImage: {
                 type: Sequelize.STRING(150),
                 allowNull: true,
             },

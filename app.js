@@ -1,3 +1,4 @@
+const path = require("path")
 const express = require("express")
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -14,6 +15,7 @@ app.use(morgan("dev"))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, "images")))
 app.use(cookieParser())
 
 // redirect incoming requests to api.js
