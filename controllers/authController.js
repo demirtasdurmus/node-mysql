@@ -30,4 +30,4 @@ exports.logout = (req, res) => {
     res.status(200)
         .clearCookie(process.env.SESSION_COOKIE_NAME)
         .send({ status: 'success', data: '' })
-};
+}

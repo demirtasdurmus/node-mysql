@@ -55,8 +55,8 @@ exports.verifyUser = async (req) => {
     if (user.isVerified) return { session: null, config: null }
     // verify and login the user
     user.isVerified = true
-    user.memberStatus = 'active'
-    await user.save({ fields: ["isVerified", "memberStatus"] })
+    user.status = 'active'
+    await user.save({ fields: ["isVerified", "status"] })
     return await createSession(req, user)
 }
 
@@ -69,13 +69,13 @@ exports.loginUser = async (req) => {
     // check if user exists
     const user = await User.findOne({
         where: { email },
-        attributes: ["id", "password", "isVerified", "memberStatus"],
+        attributes: ["id", "password", "isVerified", "status"],
         include: [Role]
     })
     if (!user) {
         throw new AppError(400, 'Incorrect email or password')
     }
-    if (user.memberStatus === "passive") {
+    if (user.status === "passive") {
         throw new AppError(400, 'The user no longer exists')
     }
     // check if password is correct
@@ -100,7 +100,7 @@ exports.checkUserSession = async (session) => {
         where: {
             id: decoded.id
         },
-        attributes: ["id", "firstName", "lastName", "email", "memberStatus"],
+        attributes: ["id", "firstName", "lastName", "email", "status"],
         include: [
             {
                 model: Role,
@@ -110,14 +110,14 @@ exports.checkUserSession = async (session) => {
         ],
     })
     // check if user exists and active
-    if (!user || user.memberStatus !== "active") throw new AppError(401, 'The user no longer exists')
+    if (!user || user.status !== "active") throw new AppError(401, 'The user no longer exists')
     return {
         id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         role: user.role.name,
-        status: user.memberStatus
+        status: user.status
     }
 }
 
