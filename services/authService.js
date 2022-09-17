@@ -134,7 +134,7 @@ const createSession = async (req, user) => {
         expires: expiry,
         httpOnly: true,
         secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-        sameSite: process.env.NODE_ENV === "development" ? "Lax" : "Strict"
+        sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict"
     }
     return { session, config }
 }

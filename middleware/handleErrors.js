@@ -59,8 +59,7 @@ const sendErrorProd = (err, res) => {
 }
 
 module.exports = (err, req, res, next) => {
-    err.statusCode = err.statusCode || 500
-    err.status = err.status || 'error'
+    // clear cookie if authorized
     if (err.statusCode === 401) res.clearCookie(process.env.SESSION_COOKIE_NAME)
     // handling errors acoording to node_env
     if (process.env.NODE_ENV === 'production') {
